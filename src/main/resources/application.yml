@@ -1,0 +1,20 @@
+server:
+  port: 8020
+spring:
+  h2:
+    console:
+      enabled: true # H2 콘솔 접속 허용 여부
+      path: /h2-console # 콘솔 접속 URL 경로
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    url: jdbc:h2:~/local
+  jpa:
+    hibernate:
+      ddl-auto: create # 엔티티를 기준으로 테이블 생성 규칙 정의
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect # DB 엔진 설정
+        format_sql: true
+        show_sql: true
