@@ -1,6 +1,6 @@
 package com.mysite.sbb.domain.question.dto;
 
-import com.mysite.sbb.domain.answer.Answer;
+import com.mysite.sbb.domain.answer.entity.Answer;
 import com.mysite.sbb.domain.question.entity.Question;
 import lombok.*;
 
