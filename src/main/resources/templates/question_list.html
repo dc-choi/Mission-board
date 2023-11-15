@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>question list</title>
-</head>
-<body>
-    <table>
-        <tr th:each="question : ${list}">
-            <td>
-                <a th:href="@{|/page/question/${question.id}/detail|}" th:text="${question.subject}"></a>
-            </td>
-            <td th:text="${question.createDate}"></td>
-        </tr>
-        <tr>
-            <a th:href="@{/page/question/add}">질문 추가</a>
-        </tr>
-    </table>
-</body>
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+    <div layout:fragment="content" class="container my-3">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>제목</th>
+                    <th>작성일시</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="question : ${list}">
+                    <td>
+                        <a th:href="@{|/page/question/${question.id}/detail|}" th:text="${question.subject}"></a>
+                    </td>
+                    <td th:text="${question.createDate}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/page/question/add}">질문 추가</a>
+    </div>
 </html>

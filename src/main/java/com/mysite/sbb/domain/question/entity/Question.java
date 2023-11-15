@@ -1,6 +1,6 @@
 package com.mysite.sbb.domain.question.entity;
 
-import com.mysite.sbb.domain.answer.Answer;
+import com.mysite.sbb.domain.answer.entity.Answer;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,8 +32,11 @@ public class Question {
     }
 
     @Builder
-    public Question(String subject, String content) {
+    public Question(Integer id, String subject, String content, LocalDateTime createDate, List<Answer> answers) {
+        this.id = id;
         this.subject = subject;
         this.content = content;
+        this.createDate = createDate;
+        this.answers = answers;
     }
 }

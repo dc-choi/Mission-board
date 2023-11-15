@@ -1,7 +1,7 @@
 package com.mysite.sbb;
 
-import com.mysite.sbb.domain.answer.Answer;
-import com.mysite.sbb.domain.answer.AnswerRepository;
+import com.mysite.sbb.domain.answer.entity.Answer;
+import com.mysite.sbb.domain.answer.dao.AnswerRepository;
 import com.mysite.sbb.domain.question.entity.Question;
 import com.mysite.sbb.domain.question.dao.QuestionRepository;
 import org.junit.jupiter.api.Test;

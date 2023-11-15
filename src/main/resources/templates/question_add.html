@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>question add</title>
-</head>
-<body>
-    <form method="post" th:action="@{/page/question/add}">
-        <td><input type="text" name="subject"></td>
-        <td><input type="text" name="content"></td>
-        <input type="submit">
-    </form>
-</body>
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+    <div layout:fragment="content" class="container my-3">
+        <form method="post" th:action="@{/page/question/add}" th:object="${request}" class="my-3">
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+            </div>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <td>제목</td>
+                        <td>내용</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="subject">
+                        </td>
+                        <td>
+                            <input type="text" name="content">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="submit" class="btn btn-primary my-2">
+        </form>
+    </div>
 </html>
