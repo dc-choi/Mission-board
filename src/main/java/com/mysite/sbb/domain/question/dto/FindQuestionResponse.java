@@ -3,6 +3,10 @@ package com.mysite.sbb.domain.question.dto;
 import com.mysite.sbb.domain.answer.entity.Answer;
 import com.mysite.sbb.domain.question.entity.Question;
 import lombok.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,9 +33,14 @@ public class FindQuestionResponse {
                 .build();
     }
 
-    public static List<FindQuestionResponse> of(List<Question> questions) {
-        return questions.stream()
+    public static Page<FindQuestionResponse> of(Page<Question> questions) {
+        List<FindQuestionResponse> list = questions.stream()
                 .map(FindQuestionResponse::of)
-                .collect(Collectors.toList());
+                .toList();
+
+        Pageable pageable = PageRequest.of(questions.getNumber(), questions.getSize());
+
+        // Page의 구현체를 직접 반환해준다.
+        return new PageImpl<>(list, pageable, list.size());
     }
 }

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class AddQuestionRequest {
         return Question.builder()
                 .subject(request.getSubject())
                 .content(request.getContent())
+                .createDate(LocalDateTime.now())
                 .build();
     }
 }
