@@ -5,6 +5,8 @@ import com.mysite.sbb.domain.question.entity.Question;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -18,6 +20,7 @@ public class AddAnswerRequest {
         return Answer.builder()
                 .question(question)
                 .content(request.getContent())
+                .createDate(LocalDateTime.now())
                 .build();
     }
 }

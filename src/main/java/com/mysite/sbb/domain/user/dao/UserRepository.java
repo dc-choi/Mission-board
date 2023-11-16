@@ -1,2 +1,7 @@
-package com.mysite.sbb.domain.user.dao;public class UserRepository {
+package com.mysite.sbb.domain.user.dao;
+
+import com.mysite.sbb.domain.user.entity.SiteUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<SiteUser, Long> {
 }

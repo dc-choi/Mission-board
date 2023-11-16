@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html lang="ko" layout:decorate="~{layout}">
     <div layout:fragment="content" class="container my-3">
-        <form method="post" th:action="@{/page/question/add}" th:object="${request}" class="my-3">
-            <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-                <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
-            </div>
+        <form method="post" th:action="@{/page/question/add}" th:object="${addQuestionRequest}" class="my-3">
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
             <table class="table table-sm">
                 <thead>
                     <tr>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html lang="ko" layout:decorate="~{layout}">
     <div layout:fragment="content" class="container my-3">
         <!-- 질문 -->
         <h2 class="border-bottom py-2" th:text="${detail.subject}"></h2>
@@ -29,10 +29,8 @@
         </div>
         <!-- 답변 반복 끝  -->
         <!-- 답변 작성 -->
-        <form th:action="@{|/page/answer|}" th:object="${request}" method="post" class="my-3">
-            <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-                <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
-            </div>
+        <form th:action="@{|/page/answer|}" th:object="${addAnswerRequest}" method="post" class="my-3">
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
             <input type="hidden" name="questionId" th:value="${detail.id}">
             <textarea name="content" id="content" rows="10" class="form-control"></textarea>
             <input type="submit" value="답변등록" class="btn btn-primary my-2">
