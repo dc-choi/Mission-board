@@ -1,6 +1,8 @@
 package com.mysite.sbb.domain.question.dao;
 
 import com.mysite.sbb.domain.question.entity.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -15,4 +17,5 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     List<Question> findBySubjectLike(String subject);
     List<Question> findBySubjectIn(String[] subjects);
     List<Question> findBySubjectOrderByCreateDateAsc(String subject);
+    Page<Question> findAll(Pageable pageable); /* 페이징을 위한 메서드 */
 }

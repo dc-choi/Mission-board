@@ -1,17 +1,17 @@
 package com.mysite.sbb.domain.question.api;
 
+import com.mysite.sbb.domain.answer.dto.AddAnswerRequest;
 import com.mysite.sbb.domain.question.application.QuestionService;
 import com.mysite.sbb.domain.question.dto.AddQuestionRequest;
 import com.mysite.sbb.domain.question.dto.AddQuestionResponse;
 import com.mysite.sbb.domain.question.dto.FindQuestionResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -20,23 +20,32 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        List<FindQuestionResponse> result = this.questionService.list();
+    public String list(
+            Model model,
+            // 스프링부트의 페이징은 첫페이지 번호가 1이 아닌 0이다.
+            @RequestParam(value="page", defaultValue="0") int page
+    ) {
+        Page<FindQuestionResponse> result = this.questionService.list(page);
         model.addAttribute("list", result);
         return "question_list";
     }
 
     @GetMapping("/{id}/detail")
-    public String get(Model model, @PathVariable("id") Integer id) {
+    public String get(
+            Model model,
+            @PathVariable("id") Integer id,
+            AddAnswerRequest addAnswerRequest
+    ) {
         FindQuestionResponse result = this.questionService.get(id);
         model.addAttribute("detail", result);
-        model.addAttribute("request", "");
         return "question_detail";
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("request", "");
+    public String add(
+            Model model,
+            AddQuestionRequest addQuestionRequest
+    ) {
         return "question_add";
     }
 
@@ -45,15 +54,14 @@ public class QuestionController {
     @PostMapping("/add")
     public String add(
             Model model,
-            @Valid AddQuestionRequest request,
+            @Valid AddQuestionRequest addQuestionRequest,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("request", request);
             return "question_add";
         }
 
-        AddQuestionResponse result = this.questionService.add(request);
+        AddQuestionResponse result = this.questionService.add(addQuestionRequest);
         return "redirect:/page/question/list";
     }
 }
