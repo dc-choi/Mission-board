@@ -1,22 +1,51 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html lang="ko" layout:decorate="~{layout}">
     <div layout:fragment="content" class="container my-3">
         <table class="table">
             <thead class="table-dark">
                 <tr>
+                    <th>게시글 번호</th>
                     <th>제목</th>
                     <th>작성일시</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="question : ${list}">
+                <tr th:each="question, loop : ${list}">
+                    <td th:text="${list.getTotalElements - (list.number * list.size) - loop.index}"></td>
                     <td>
                         <a th:href="@{|/page/question/${question.id}/detail|}" th:text="${question.subject}"></a>
+                        <span class="text-danger small ms-2"
+                              th:if="${#lists.size(question.answers) > 0}"
+                              th:text="${#lists.size(question.answers)}">
+                        </span>
                     </td>
                     <td th:text="${question.createDate}"></td>
                 </tr>
             </tbody>
         </table>
+        <!-- 페이징처리 시작 -->
+        <div th:if="${!list.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{|?page=${list.number - 1}|}">
+                        <span>이전</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(0, list.totalPages - 1)}"
+                    th:if="${page >= list.number - 5 and page <= list.number + 5}"
+                    th:classappend="${page == list.number} ? 'active'"
+                    class="page-item">
+                    <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${list.number + 1}|}">
+                        <span>다음</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- 페이징처리 끝 -->
         <a th:href="@{/page/question/add}">질문 추가</a>
     </div>
 </html>
