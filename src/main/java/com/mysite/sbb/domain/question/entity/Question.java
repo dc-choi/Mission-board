@@ -1,10 +1,9 @@
 package com.mysite.sbb.domain.question.entity;
 
 import com.mysite.sbb.domain.answer.entity.Answer;
+import com.mysite.sbb.domain.user.entity.SiteUser;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +11,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,18 +27,12 @@ public class Question {
 
     private LocalDateTime createDate;
 
+    private LocalDateTime modifyDate;
+
     @OneToMany(mappedBy = "question")
     private List<Answer> answers;
 
-    public Question() {
-    }
-
-    @Builder
-    public Question(Integer id, String subject, String content, LocalDateTime createDate, List<Answer> answers) {
-        this.id = id;
-        this.subject = subject;
-        this.content = content;
-        this.createDate = createDate;
-        this.answers = answers;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    private SiteUser siteUser;
 }
