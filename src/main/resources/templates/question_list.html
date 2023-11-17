@@ -3,21 +3,25 @@
     <div layout:fragment="content" class="container my-3">
         <table class="table">
             <thead class="table-dark">
-                <tr>
+                <tr class="text-center">
                     <th>게시글 번호</th>
-                    <th>제목</th>
+                    <th style="width:50%">제목</th>
+                    <th>글쓴이</th>
                     <th>작성일시</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="question, loop : ${list}">
+                <tr class="text-center" th:each="question, loop : ${list}">
                     <td th:text="${list.getTotalElements - (list.number * list.size) - loop.index}"></td>
-                    <td>
+                    <td class="text-start">
                         <a th:href="@{|/page/question/${question.id}/detail|}" th:text="${question.subject}"></a>
                         <span class="text-danger small ms-2"
                               th:if="${#lists.size(question.answers) > 0}"
                               th:text="${#lists.size(question.answers)}">
                         </span>
+                    </td>
+                    <td>
+                        <span th:if="${question.siteUser != null}" th:text="${question.siteUser.username}"></span>
                     </td>
                     <td th:text="${question.createDate}"></td>
                 </tr>

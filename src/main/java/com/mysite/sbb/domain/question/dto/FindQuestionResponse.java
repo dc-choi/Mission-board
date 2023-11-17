@@ -2,6 +2,7 @@ package com.mysite.sbb.domain.question.dto;
 
 import com.mysite.sbb.domain.answer.entity.Answer;
 import com.mysite.sbb.domain.question.entity.Question;
+import com.mysite.sbb.domain.user.entity.SiteUser;
 import lombok.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +22,7 @@ public class FindQuestionResponse {
     private String content;
     private LocalDateTime createDate;
     private List<Answer> answers;
+    private SiteUser siteUser;
 
     public static FindQuestionResponse of(Question question) {
         return FindQuestionResponse.builder()
@@ -30,6 +31,7 @@ public class FindQuestionResponse {
                 .content(question.getContent())
                 .createDate(question.getCreateDate())
                 .answers(question.getAnswers())
+                .siteUser(question.getSiteUser())
                 .build();
     }
 

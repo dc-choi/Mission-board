@@ -8,6 +8,9 @@
                 <div class="card-text" style="white-space: pre-line;" th:text="${detail.content}"></div>
                 <div class="d-flex justify-content-end">
                     <div class="badge bg-light text-dark p-2 text-start">
+                        <div class="mb-2">
+                            <span th:if="${detail.siteUser != null}" th:text="${detail.siteUser.username}"></span>
+                        </div>
                         <div th:text="${#temporals.format(detail.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                     </div>
                 </div>
@@ -22,6 +25,9 @@
                 <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
                 <div class="d-flex justify-content-end">
                     <div class="badge bg-light text-dark p-2 text-start">
+                        <div class="mb-2">
+                            <span th:if="${answer.siteUser != null}" th:text="${answer.siteUser.username}"></span>
+                        </div>
                         <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                     </div>
                 </div>
@@ -32,7 +38,8 @@
         <form th:action="@{|/page/answer|}" th:object="${addAnswerRequest}" method="post" class="my-3">
             <div th:replace="~{form_errors :: formErrorsFragment}"></div>
             <input type="hidden" name="questionId" th:value="${detail.id}">
-            <textarea name="content" id="content" rows="10" class="form-control"></textarea>
+            <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control" rows="10"></textarea>
+            <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
             <input type="submit" value="답변등록" class="btn btn-primary my-2">
         </form>
     </div>

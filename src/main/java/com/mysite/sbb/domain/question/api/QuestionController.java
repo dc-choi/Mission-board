@@ -8,10 +8,13 @@ import com.mysite.sbb.domain.question.dto.FindQuestionResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @Controller
@@ -41,6 +44,8 @@ public class QuestionController {
         return "question_detail";
     }
 
+    // 로그인이 되어야지만 사용할 수 있다는 표시
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/add")
     public String add(
             Model model,
@@ -51,16 +56,19 @@ public class QuestionController {
 
     // 결론적으로 JSON을 주고받지 않으면 RequestParam을 사용해야 함.
     // https://way-be-developer.tistory.com/242
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String add(
             Model model,
             @Valid AddQuestionRequest addQuestionRequest,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Principal principal
     ) {
         if (bindingResult.hasErrors()) {
             return "question_add";
         }
 
+        addQuestionRequest.setAuthor(principal.getName());
         AddQuestionResponse result = this.questionService.add(addQuestionRequest);
         return "redirect:/page/question/list";
     }

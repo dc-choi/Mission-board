@@ -1,4 +1,4 @@
-package com.mysite.sbb;
+package com.mysite.sbb.global.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

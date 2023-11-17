@@ -1,13 +1,18 @@
 package com.mysite.sbb.domain.user.entity;
 
+import com.mysite.sbb.domain.answer.entity.Answer;
+import com.mysite.sbb.domain.question.entity.Question;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class SiteUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +26,9 @@ public class SiteUser {
     @Column(unique = true)
     private String email;
 
-    public SiteUser() {
-    }
+    @OneToMany(mappedBy = "siteUser")
+    private List<Question> questions;
 
-    @Builder
-    public SiteUser(Long id, String username, String password, String email) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
+    @OneToMany(mappedBy = "siteUser")
+    private List<Answer> answers;
 }
